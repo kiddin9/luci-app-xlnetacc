@@ -1,7 +1,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-xlnetacc
-PKG_VERSION:=1.0.9-20201124
+PKG_VERSION:=1.1
 PKG_RELEASE:=1
 
 PKG_LICENSE:=GPLv2
@@ -28,16 +28,12 @@ endef
 define Build/Compile
 endef
 
-define Package/$(PKG_NAME)/postinst
-#!/bin/sh
-if [ -z "$${IPKG_INSTROOT}" ]; then
-	( . /etc/uci-defaults/luci-xlnetacc ) && rm -f /etc/uci-defaults/luci-xlnetacc
-fi
-exit 0
-endef
-
 define Package/$(PKG_NAME)/conffiles
 /etc/config/xlnetacc
+endef
+
+define Build/Prepare
+	chmod +x root/etc/init.d/xlnetacc root/usr/bin/* >/dev/null 2>&1
 endef
 
 define Package/luci-app-xlnetacc/install
